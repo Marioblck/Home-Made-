@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pedidos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #fafafa;
+            padding-bottom: 120px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .categorias {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+        }
+
+        .categorias button {
+            padding: 10px;
+            border: none;
+            background: black;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .menu {
+            display: none;
+            padding: 10px;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .activo {
+            display: grid;
+        }
+
+        .producto {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .producto img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .acciones {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .acciones button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: black;
+            color: white;
+        }
+
+        .carrito {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .pedido {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .efectivo { background: black; }
+        .tarjeta { background: green; }
+        .transferencia { background: blue; }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .cuentaBox {
+            display: none;
+            padding: 10px;
+            background: #eef;
+            margin: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Menú</h1>
+
+<!-- INPUT NOMBRE -->
+<div style="padding:10px;">
+    <input type="text" id="nombre" placeholder="Nombre y apellido" oninput="mostrarCuenta()">
+</div>
+
+<!-- DATOS TRANSFERENCIA -->
+<div id="cuentaBox" class="cuentaBox">
+    <p><b>Datos para transferencia:</b></p>
+    <p>Banco: BBVA</p>
+    <p>Cuenta: 7845123690</p>
+    <p>CLABE: 012345678912345678</p>
+</div>
+
+<!-- BOTONES -->
+<div class="categorias">
+    <button onclick="mostrar('fresas')">Fresas</button>
+    <button onclick="mostrar('banderillas')">Banderillas</button>
+    <button onclick="mostrar('bebidas')">Bebidas</button>
+</div>
+
+<!-- FRESAS -->
+<div id="fresas" class="menu activo">
+    <div class="producto">
+        <img src="imagenes/fresas.jpg">
+        <h3>Fresas</h3>
+        <p>$50</p>
+        <div class="acciones">
+            <button onclick="cambiar('Fresas', -1, 50)">-</button>
+            <span id="Fresas">0</span>
+            <button onclick="cambiar('Fresas', 1, 50)">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- BANDERILLAS -->
+<div id="banderillas" class="menu">
+    <div class="producto">
+        <img src="imagenes/banderilla.jpg">
+        <h3>Banderilla</h3>
+        <p>$30</p>
+        <div class="acciones">
+            <button onclick="cambiar('Banderilla', -1, 30)">-</button>
+            <span id="Banderilla">0</span>
+            <button onclick="cambiar('Banderilla', 1, 30)">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- BEBIDAS -->
+<div id="bebidas" class="menu">
+    <div class="producto">
+        <img src="imagenes/cafe.jpg">
+        <h3>Café</h3>
+        <p>$25</p>
+        <div class="acciones">
+            <button onclick="cambiar('Cafe', -1, 25)">-</button>
+            <span id="Cafe">0</span>
+            <button onclick="cambiar('Cafe', 1, 25)">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- CARRITO -->
+<div class="carrito">
+    <h3 id="total">Total: $0</h3>
+
+    <button class="pedido efectivo" onclick="hacerPedido('efectivo')">
+        Pagar en efectivo
+    </button>
+
+    <button class="pedido tarjeta" onclick="hacerPedido('tarjeta')">
+        Pagar con tarjeta
+    </button>
+
+    <button class="pedido transferencia" onclick="hacerPedido('transferencia')">
+        Transferencia
+    </button>
+</div>
+
+<script>
+    let carrito = {};
+
+    function mostrar(cat) {
+        document.querySelectorAll('.menu').forEach(m => m.classList.remove('activo'));
+        document.getElementById(cat).classList.add('activo');
+    }
+
+    function cambiar(nombre, cambio, precio) {
+        if (!carrito[nombre]) {
+            carrito[nombre] = { cantidad: 0, precio: precio };
+        }
+
+        carrito[nombre].cantidad += cambio;
+
+        if (carrito[nombre].cantidad < 0) {
+            carrito[nombre].cantidad = 0;
+        }
+
+        document.getElementById(nombre).innerText = carrito[nombre].cantidad;
+        actualizarTotal();
+    }
+
+    function actualizarTotal() {
+        let total = 0;
+        for (let producto in carrito) {
+            total += carrito[producto].cantidad * carrito[producto].precio;
+        }
+        document.getElementById("total").innerText = "Total: $" + total;
+    }
+
+    function mostrarCuenta() {
+        let nombre = document.getElementById("nombre").value;
+
+        if (nombre.trim() !== "") {
+            document.getElementById("cuentaBox").style.display = "block";
+        } else {
+            document.getElementById("cuentaBox").style.display = "none";
+        }
+    }
+
+    function hacerPedido(tipoPago) {
+
+        let nombre = document.getElementById("nombre").value;
+
+        if (nombre.trim() === "") {
+            alert("Ingresa tu nombre");
+            return;
+        }
+
+        let mensaje = "Pedido de: " + nombre + "\n\n";
+        let total = 0;
+
+        for (let producto in carrito) {
+            if (carrito[producto].cantidad > 0) {
+                mensaje += producto + " x" + carrito[producto].cantidad + "\n";
+                total += carrito[producto].cantidad * carrito[producto].precio;
+            }
+        }
+
+        mensaje += "\nTotal: $" + total + "\n";
+
+        if (tipoPago === 'efectivo') {
+            mensaje += "Pago: Efectivo";
+            mensaje += "📍 Enviar ubicación por WhatsApp para la entrega";
+        }
+
+        if (tipoPago === 'tarjeta') {
+            mensaje += "Pago: Tarjeta";
+            window.open("https://www.mercadopago.com.mx/", "_blank");
+        }
+
+        if (tipoPago === 'transferencia') {
+            mensaje += "Pago: Transferencia\n";
+            mensaje += "Enviar comprobante por WhatsApp";
+        }
+
+        alert(mensaje);
+    }
+</script>
+
+</body>
+</html>
