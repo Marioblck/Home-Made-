@@ -9,11 +9,12 @@
             margin: 0;
             font-family: Arial;
             background: #fafafa;
-            padding-bottom: 120px;
         }
 
-        h1 {
-            text-align: center;
+        h1 { text-align: center; }
+
+        .contenido {
+            padding-bottom: 220px;
         }
 
         .categorias {
@@ -37,15 +38,14 @@
             gap: 10px;
         }
 
-        .activo {
-            display: grid;
-        }
+        .activo { display: grid; }
 
         .producto {
             background: white;
             border-radius: 12px;
             padding: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
         }
 
         .producto img {
@@ -59,6 +59,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 5px;
         }
 
         .acciones button {
@@ -67,6 +68,14 @@
             border: none;
             background: black;
             color: white;
+        }
+
+        input, select {
+            width: 100%;
+            margin-top: 5px;
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
         }
 
         .carrito {
@@ -90,16 +99,7 @@
         }
 
         .efectivo { background: black; }
-        .tarjeta { background: green; }
         .transferencia { background: blue; }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
 
         .cuentaBox {
             display: none;
@@ -113,14 +113,14 @@
 
 <body>
 
+<div class="contenido">
+
 <h1>Menú</h1>
 
-<!-- INPUT NOMBRE -->
 <div style="padding:10px;">
     <input type="text" id="nombre" placeholder="Nombre y apellido" oninput="mostrarCuenta()">
 </div>
 
-<!-- DATOS TRANSFERENCIA -->
 <div id="cuentaBox" class="cuentaBox">
     <p><b>Datos para transferencia:</b></p>
     <p>Banco: BBVA</p>
@@ -128,37 +128,436 @@
     <p>CLABE: 012345678912345678</p>
 </div>
 
-<!-- BOTONES -->
 <div class="categorias">
-    <button onclick="mostrar('fresas')">Fresas</button>
+    <button onclick="mostrar('Fresas')">Fresas</button>
+    <button onclick="mostrar('cakes')">Mini Hotcakes</button>
     <button onclick="mostrar('banderillas')">Banderillas</button>
     <button onclick="mostrar('bebidas')">Bebidas</button>
 </div>
 
-<!-- FRESAS -->
-<div id="fresas" class="menu activo">
+<!-- ================= FRESAS ================= -->
+<div id="Fresas" class="menu activo">
+
+    <!-- CHICAS -->
     <div class="producto">
         <img src="imagenes/fresas.jpg">
-        <h3>Fresas</h3>
-        <p>$50</p>
+        <h3>Fresas Chicas</h3>
+        <p>$70</p>
+
+        <select id="toppingFresasChicas">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="topping2FresasChicas">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="extraFresasChicas">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
         <div class="acciones">
-            <button onclick="cambiar('Fresas', -1, 50)">-</button>
-            <span id="Fresas">0</span>
-            <button onclick="cambiar('Fresas', 1, 50)">+</button>
+            <button onclick="cambiar('FresasChicas', -1, 70)">-</button>
+            <span id="FresasChicas">0</span>
+            <button onclick="cambiar('FresasChicas', 1, 70)">+</button>
+        </div>
+    </div>
+
+    <!-- MEDIANAS -->
+    <div class="producto">
+        <img src="imagenes/fresas.jpg">
+        <h3>Fresas Medianas</h3>
+        <p>$80</p>
+
+        <select id="toppingFresasMedianas">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="topping2FresasMedianas">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="extraFresasMedianas">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
+        <div class="acciones">
+            <button onclick="cambiar('FresasMedianas', -1, 80)">-</button>
+            <span id="FresasMedianas">0</span>
+            <button onclick="cambiar('FresasMedianas', 1, 80)">+</button>
+        </div>
+    </div>
+
+    <!-- GRANDES -->
+    <div class="producto">
+        <img src="imagenes/fresas.jpg">
+        <h3>Fresas Grandes</h3>
+        <p>$175</p>
+
+        <select id="toppingFresasGrandes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="topping2FresasGrandes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="extraFresasGrandes">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
+        <div class="acciones">
+            <button onclick="cambiar('FresasGrandes', -1, 90)">-</button>
+            <span id="FresasGrandes">0</span>
+            <button onclick="cambiar('FresasGrandes', 1, 90)">+</button>
+        </div>
+    </div>
+
+    <!-- DURAZNOS CHICOS -->
+    <div class="producto">
+        <img src="imagenes/fresas.jpg">
+        <h3>Duraznos Chicos</h3>
+        <p>$80</p>
+
+        <select id="toppingDuraznosChicos">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="topping2DuraznosChicos">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="extraDuraznosChicos">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
+        <div class="acciones">
+            <button onclick="cambiar('DuraznosChicos', -1, 90)">-</button>
+            <span id="DuraznosChicos">0</span>
+            <button onclick="cambiar('DuraznosChicos', 1, 90)">+</button>
+        </div>
+    </div>
+
+    <!-- DURAZNOS MEDIANOS -->
+    <div class="producto">
+        <img src="imagenes/fresas.jpg">
+        <h3>Duraznos Medianos</h3>
+        <p>$90</p>
+
+        <select id="toppingDuraznosMedianos">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="topping2DuraznosMedianos">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="extraDuraznosMedianos">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
+        <div class="acciones">
+            <button onclick="cambiar('DuraznosMedianos', -1, 90)">-</button>
+            <span id="DuraznosMedianos">0</span>
+            <button onclick="cambiar('DuraznosMedianos', 1, 90)">+</button>
+        </div>
+    </div>
+
+    <!-- DURAZNOS GRANDES -->
+    <div class="producto">
+        <img src="imagenes/fresas.jpg">
+        <h3>Duraznos Grandes</h3>
+        <p>$175</p>
+
+        <select id="toppingDuraznosGrandes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="topping2DuraznosGrandes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="extraDuraznosGrandes">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
+        <div class="acciones">
+            <button onclick="cambiar('DuraznosGrandes', -1, 90)">-</button>
+            <span id="DuraznosGrandes">0</span>
+            <button onclick="cambiar('DuraznosGrandes', 1, 90)">+</button>
         </div>
     </div>
 </div>
 
-<!-- BANDERILLAS -->
+<!-- ================= CAKES ================= -->
+<div id="cakes" class="menu activo">
+
+    <!-- CHICOS -->
+    <div class="producto">
+        <img src="imagenes/fresas.jpg">
+        <h3>HotCakes Chicos</h3>
+        15 PORCIONES
+        <p>$70</p>
+
+        <select id="toppinghotcakes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="topping2hotcakes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="extrahotcakes">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
+        <div class="acciones">
+            <button onclick="cambiar('hotcakes', -1, 70)">-</button>
+            <span id="hotcakes">0</span>
+            <button onclick="cambiar('hotcakes', 1, 70)">+</button>
+        </div>
+    </div>
+
+    <!-- MEDIANOS -->
+    <div class="producto">
+        <img src="imagenes/fresas.jpg">
+        <h3>HotCakes Medianos</h3>
+        25 PORCIONES
+        <p>$80</p>
+
+        <select id="toppinghotcakesmedianos">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="topping2hotcakesmedianos">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="extrahotcakesmedianos">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
+        <div class="acciones">
+            <button onclick="cambiar('hotcakesmedianos', -1, 70)">-</button>
+            <span id="hotcakesmedianos">0</span>
+            <button onclick="cambiar('hotcakesmedianos', 1, 70)">+</button>
+        </div>
+    </div>
+
+    <!-- GRANDES -->
+    <div class="producto">
+        <img src="imagenes/fresas.jpg">
+        <h3>HotCakes Grandes</h3>
+        35 PORCIONES
+        <p>$95</p>
+
+        <select id="toppinghotcakesgrandes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="topping2hotcakesgrandes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <select id="extrahotcakesgrandes">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
+        <div class="acciones">
+            <button onclick="cambiar('hotcakesgrandes', -1, 70)">-</button>
+            <span id="hotcakesgrandes">0</span>
+            <button onclick="cambiar('hotcakesgrandes', 1, 70)">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- BANDERILLAS PERSONALIZADAS -->
 <div id="banderillas" class="menu">
     <div class="producto">
         <img src="imagenes/banderilla.jpg">
         <h3>Banderilla</h3>
-        <p>$30</p>
+
+        <p><b>Elija relleno</b></p>
+        <select id="rellenoBanderilla" onchange="precioBanderilla()">
+            <option value="">Selecciona</option>
+            <option value="queso">Queso</option>
+            <option value="salchicha">Salchicha</option>
+            <option value="mixta">Mixta</option>
+        </select>
+
+        <p><b>Elija cubierta</b></p>
+        <select id="cubiertaBanderilla" onchange="precioBanderilla()">
+            <option value="">Selecciona</option>
+            <option value="clasica">Clasica</option>
+            <option value="flamin">Flamin</option>
+            <option value="papa">Papa</option>
+            <option value="cheese">Cheese</option>
+            <option value="ramen">Ramen</option>
+        </select>
+
+        <p id="precioBand">Precio: $0</p>
+
         <div class="acciones">
-            <button onclick="cambiar('Banderilla', -1, 30)">-</button>
+            <button onclick="cambiarBanderilla(-1)">-</button>
             <span id="Banderilla">0</span>
-            <button onclick="cambiar('Banderilla', 1, 30)">+</button>
+            <button onclick="cambiarBanderilla(1)">+</button>
+        </div>
+    </div>
+
+    <!-- BANDERILLAS DULCES -->
+    <div class="producto">
+        <img src="imagenes/banderilla.jpg">
+        <h3>Banderillas Dulces</h3>
+
+        <p><b>Elija relleno</b></p>
+        <select id="rellenoBanderillaDulce" onchange="precioBanderillaDulce()">
+            <option value="">Selecciona</option>
+            <option value="kinderdelice">kinder Delice</option>
+            <option value="chocoroles">Choco Roles</option>
+            <option value="gansito">Gansito</option>
+        </select>
+
+        <p id="precioDulceText">Precio: $0</p>
+
+        <div class="acciones">
+            <button onclick="cambiarBanderillaDulce(-1)">-</button>
+            <span id="BanderillaDulce">0</span>
+            <button onclick="cambiarBanderillaDulce(1)">+</button>
         </div>
     </div>
 </div>
@@ -177,102 +576,223 @@
     </div>
 </div>
 
+</div>
+
 <!-- CARRITO -->
 <div class="carrito">
     <h3 id="total">Total: $0</h3>
+    <button class="pedido efectivo" onclick="pedir('efectivo')">
+    Efectivo
+</button>
 
-    <button class="pedido efectivo" onclick="hacerPedido('efectivo')">
-        Pagar en efectivo
-    </button>
-
-    <button class="pedido tarjeta" onclick="hacerPedido('tarjeta')">
-        Pagar con tarjeta
-    </button>
-
-    <button class="pedido transferencia" onclick="hacerPedido('transferencia')">
-        Transferencia
-    </button>
+<button class="pedido transferencia" onclick="pedir('transferencia')">
+    Transferencia
+</button>
 </div>
 
 <script>
-    let carrito = {};
+let precioD = 0;
+let carrito = {};
+let precioB = 0;
 
-    function mostrar(cat) {
-        document.querySelectorAll('.menu').forEach(m => m.classList.remove('activo'));
-        document.getElementById(cat).classList.add('activo');
+/* ================= MENÚ ================= */
+function mostrar(cat){
+    document.querySelectorAll('.menu').forEach(m=>m.classList.remove('activo'));
+    document.getElementById(cat).classList.add('activo');
+}
+
+/* ================= VALIDAR NOMBRE ================= */
+function validarNombre(){
+    let nombre = document.getElementById("nombre")?.value || "";
+    return nombre.trim();
+}
+
+/* ================= CÁLCULO ================= */
+function actualizarTotal(){
+    let total = 0;
+
+    for(let p in carrito){
+        carrito[p].items.forEach(i=>{
+            total += i.precio || carrito[p].precio;
+        });
     }
 
-    function cambiar(nombre, cambio, precio) {
-        if (!carrito[nombre]) {
-            carrito[nombre] = { cantidad: 0, precio: precio };
-        }
+    document.getElementById("total").innerText = "Total: $" + total;
+    return total;
+}
 
-        carrito[nombre].cantidad += cambio;
+/* ================= FRESAS / OTROS ================= */
+function cambiar(nombre,cambio,precio){
 
-        if (carrito[nombre].cantidad < 0) {
-            carrito[nombre].cantidad = 0;
-        }
+    if(!carrito[nombre]) carrito[nombre]={cantidad:0,precio,items:[]};
 
-        document.getElementById(nombre).innerText = carrito[nombre].cantidad;
-        actualizarTotal();
+    if(cambio>0){
+        carrito[nombre].cantidad++;
+
+        carrito[nombre].items.push({
+            t1: document.getElementById("topping"+nombre)?.value,
+            t2: document.getElementById("topping2"+nombre)?.value,
+            extra: document.getElementById("Fruta Extra"+nombre)?.value
+        });
     }
 
-    function actualizarTotal() {
-        let total = 0;
-        for (let producto in carrito) {
-            total += carrito[producto].cantidad * carrito[producto].precio;
-        }
-        document.getElementById("total").innerText = "Total: $" + total;
+    if(cambio<0 && carrito[nombre].cantidad>0){
+        carrito[nombre].cantidad--;
+        carrito[nombre].items.pop();
     }
 
-    function mostrarCuenta() {
-        let nombre = document.getElementById("nombre").value;
+    document.getElementById(nombre).innerText = carrito[nombre].cantidad;
 
-        if (nombre.trim() !== "") {
-            document.getElementById("cuentaBox").style.display = "block";
-        } else {
-            document.getElementById("cuentaBox").style.display = "none";
-        }
+    actualizarTotal();
+}
+
+
+
+/* ================= BANDERILLAS ================= */
+function precioBanderilla(){
+    let r=document.getElementById("rellenoBanderilla").value;
+    let c=document.getElementById("cubiertaBanderilla").value;
+
+    if(r=="queso" && c=="clasica") precioB=70;
+    else if(r=="salchicha" && c=="clasica") precioB=60;
+    else if(r=="mixta" && c=="clasica") precioB=65;
+    else if(r=="queso" && c=="flamin") precioB=80;
+    else if(r=="salchicha" && c=="flamin") precioB=70;
+    else if(r=="mixta" && c=="flamin") precioB=75;
+    else if(r=="queso" && c=="papa") precioB=75;
+    else if(r=="salchicha" && c=="papa") precioB=65;
+    else if(r=="mixta" && c=="papa") precioB=70;
+     else if(r=="queso" && c=="ramen") precioB=75;
+    else if(r=="salchicha" && c=="ramen") precioB=65;
+    else if(r=="mixta" && c=="ramen") precioB=70;
+     else if(r=="queso" && c=="cheese") precioB=75;
+    else if(r=="salchicha" && c=="cheese") precioB=65;
+    else if(r=="mixta" && c=="cheese") precioB=70;
+    
+    else precioB=0;
+
+    document.getElementById("precioBand").innerText="Precio: $"+precioB;
+}
+
+
+function cambiarBanderilla(c){
+
+    if(!carrito["Banderilla"]) carrito["Banderilla"]={cantidad:0,items:[]};
+
+    let r=document.getElementById("rellenoBanderilla").value;
+    let cu=document.getElementById("cubiertaBanderilla").value;
+
+    if(!r||!cu) return alert("Selecciona opciones");
+
+    if(precioB==0) return alert("Combinación inválida");
+
+    if(c>0){
+        carrito["Banderilla"].cantidad++;
+        carrito["Banderilla"].items.push({relleno:r,cubierta:cu,precio:precioB});
+    } else if(carrito["Banderilla"].cantidad>0){
+        carrito["Banderilla"].cantidad--;
+        carrito["Banderilla"].items.pop();
     }
 
-    function hacerPedido(tipoPago) {
+    document.getElementById("Banderilla").innerText=carrito["Banderilla"].cantidad;
 
-        let nombre = document.getElementById("nombre").value;
+    actualizarTotal();
+}
 
-        if (nombre.trim() === "") {
-            alert("Ingresa tu nombre");
-            return;
-        }
+function precioBanderillaDulce(){
+    let r = document.getElementById("rellenoBanderillaDulce").value;
 
-        let mensaje = "Pedido de: " + nombre + "\n\n";
-        let total = 0;
+    if(r == "kinderdelice") precioD = 45;
+    else if(r == "chocoroles") precioD = 35;
+    else if(r == "gansito") precioD = 45;
+    else precioD = 0;
 
-        for (let producto in carrito) {
-            if (carrito[producto].cantidad > 0) {
-                mensaje += producto + " x" + carrito[producto].cantidad + "\n";
-                total += carrito[producto].cantidad * carrito[producto].precio;
-            }
-        }
+    document.getElementById("precioDulceText").innerText =
+        "Precio: $" + precioD;
+}
 
-        mensaje += "\nTotal: $" + total + "\n";
+function cambiarBanderillaDulce(c){
 
-        if (tipoPago === 'efectivo') {
-            mensaje += "Pago: Efectivo";
-            mensaje += "📍 Enviar ubicación por WhatsApp para la entrega";
-        }
+    if(!carrito["BanderillaDulce"])
+        carrito["BanderillaDulce"] = {cantidad:0,items:[]};
 
-        if (tipoPago === 'tarjeta') {
-            mensaje += "Pago: Tarjeta";
-            window.open("https://www.mercadopago.com.mx/", "_blank");
-        }
+    let r = document.getElementById("rellenoBanderillaDulce").value;
 
-        if (tipoPago === 'transferencia') {
-            mensaje += "Pago: Transferencia\n";
-            mensaje += "Enviar comprobante por WhatsApp";
-        }
+    if(!r) return alert("Selecciona Kinder, Chocoroles o Gansito");
 
-        alert(mensaje);
+    if(precioD == 0) return alert("Selecciona una opción válida");
+
+    if(c > 0){
+        carrito["BanderillaDulce"].cantidad++;
+        carrito["BanderillaDulce"].items.push({
+            tipo: r,
+            precio: precioD
+        });
+    } else if(carrito["BanderillaDulce"].cantidad > 0){
+        carrito["BanderillaDulce"].cantidad--;
+        carrito["BanderillaDulce"].items.pop();
     }
+
+    document.getElementById("BanderillaDulce").innerText =
+        carrito["BanderillaDulce"].cantidad;
+
+    actualizarTotal();
+}
+
+/* ================= BOTÓN PEDIDO ================= */
+function pedir(tipo){
+
+    let nombre = validarNombre();
+
+    if(!nombre){
+        alert("⚠️ Escribe tu nombre antes de hacer el pedido");
+        return;
+    }
+
+    let msg = "🧾 PEDIDO DE: " + nombre + "\n\n";
+    let total = 0;
+
+    for(let p in carrito){
+
+        msg += p + " x" + carrito[p].cantidad + "\n";
+
+        carrito[p].items.forEach((i,index)=>{
+
+            msg += `${index+1}) `;
+
+            if(i.t1) msg += "T1: " + i.t1 + " | ";
+            if(i.t2) msg += "T2: " + i.t2 + " | ";
+            if(i.extra) msg += "Extra: " + i.extra + " | ";
+            if(i.relleno) msg += "Relleno: " + i.relleno + " | ";
+            if(i.cubierta) msg += "Cubierta: " + i.cubierta + " | ";
+
+            msg += "Precio: $" + (i.precio || carrito[p].precio) + "\n";
+
+            total += i.precio || carrito[p].precio;
+        });
+    }
+
+    msg += "\nTOTAL: $" + total + "\n\n";
+
+    /* ================= EFECTIVO ================= */
+    if(tipo === "efectivo"){
+        msg += "💵 PAGO EN EFECTIVO\n";
+        msg += "📍 Por favor envía tu ubicación por WhatsApp para entrega.";
+    }
+
+    /* ================= TRANSFERENCIA ================= */
+    if(tipo === "transferencia"){
+        msg += "🏦 PAGO POR TRANSFERENCIA\n\n";
+        msg += "Banco: BBVA\n";
+        msg += "Nombre: TU NOMBRE O NEGOCIO\n";
+        msg += "Cuenta: 7845123690\n";
+        msg += "CLABE: 012345678912345678\n";
+        msg += "📍 Por favor envía tu ubicación por WhatsApp para entrega.\n";
+        msg += "Por favor envia captura de tu transferencia por WhatsApp.";
+    }
+
+    alert(msg);
+}
 </script>
 
 </body>
