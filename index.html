@@ -155,12 +155,6 @@
     <input type="text" id="nombre" placeholder="Nombre y apellido" oninput="mostrarCuenta()">
 </div>
 
-<div id="cuentaBox" class="cuentaBox">
-    <p><b>Datos para transferencia:</b></p>
-    <p>Banco: BBVA</p>
-    <p>Nombre: Judith Chávez</p>
-    <p>Cuenta: 4152 3145 5176 5962</p>
-</div>
 
 <div class="categorias">
     <button onclick="mostrar('fresas')">Fresas</button>
@@ -895,9 +889,8 @@ function pedir(tipo){
     if(tipo === "transferencia"){
         msg += "🏦 PAGO POR TRANSFERENCIA\n\n";
         msg += "Banco: BBVA\n";
-        msg += "Nombre: TU NOMBRE O NEGOCIO\n";
-        msg += "Cuenta: 7845123690\n";
-        msg += "CLABE: 012345678912345678\n";
+        msg += "Nombre: Judith Chávez";
+        msg += "Cuenta: 4152 3145 5176 5962";
         msg += "📍 Por favor envía tu ubicación por WhatsApp para entrega.\n";
         msg += "Por favor envia captura de tu transferencia por WhatsApp.";
     }
