@@ -155,7 +155,6 @@
     <input type="text" id="nombre" placeholder="Nombre y apellido" oninput="mostrarCuenta()">
 </div>
 
-
 <div class="categorias">
     <button onclick="mostrar('fresas')">Fresas</button>
     <button onclick="mostrar('cakes')">Mini Hotcakes</button>
@@ -166,7 +165,7 @@
 <!-- ================= FRESAS ================= -->
 <div id="fresas" class="menu activo">
     <div class="producto">
-        <img src="imagenes/fresas.jpg">
+        <img src="imagenes/Fresas.jpg">
         <h3>Fresas</h3>
 
         <p><b>Elija Tamaño</b></p>
@@ -264,6 +263,66 @@
             <button onclick="cambiarDuraznos(-1)">-</button>
             <span id="Duraznos">0</span>
             <button onclick="cambiarDuraznos(1)">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= CAKES ================= -->
+ <div id="cakes" class="menu">
+    <div class="producto">
+        <img src="imagenes/hotcakes.jpg">
+        <h3>HotCakes</h3>
+
+        <p><b>Elija Tamaño</b></p>
+        <select id="tamañoHotCakes" onchange="precioHotCakes()">
+            <option value="">Selecciona</option>
+            <option value="chico">Chico 15 PORCIONES</option>
+            <option value="mediano">Mediano 25 PORCIONES</option>
+            <option value="grande">Grande 35 PORCIONES</option>
+        </select>
+
+        <p><b>Elija Jarabe</b></p>
+        <select id="jarabeHotCakes">
+            <option>Sin jarabe</option><option>Hershey</option><option>Nutella</option>
+            <option>Lechera</option><option>Mermelada</option>
+        </select>
+
+        <p><b>Elija Topping 1</b></p>
+        <select id="toppingHotCakes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <p><b>Elija Topping 2</b></p>
+        <select id="topping2HotCakes">
+            <option>Sin topping</option><option>Granillo Moka</option><option>Granillo Mixto</option>
+            <option>Granillo Chocolate</option><option>Granillo Turin</option><option>Granillo Chocolate Amargo</option>
+            <option>Granillo Capuchino</option><option>Galleta Oreo</option><option>Perlillas Chocolate</option>
+            <option>Perlillas Fresa</option><option>Arandano</option><option>Granola</option>
+            <option>Bombones</option><option>Mazapan</option><option>Chocoretas</option>
+            <option>Chococrispis</option><option>Almendra</option><option>M&M</option>
+            <option>Kranky</option><option>Nuez</option><option>Coco Blanco</option>
+            <option>Coco Tostado</option><option>Froot Loops</option>
+        </select>
+
+        <p><b>Elija Fruta Extra</b></p>
+        <select id="extraHotCakes">
+            <option>Sin extra</option><option>Durazno</option><option>Frutos Rojos</option>
+            <option>Kiwi</option><option>Platano</option>
+        </select>
+
+          <p id="countHotCakes">Precio: $0</p>
+
+        <div class="acciones">
+            <button onclick="cambiarHotCakes(-1)">-</button>
+            <span id="HotCakes">0</span>
+            <button onclick="cambiarHotCakes(1)">+</button>
         </div>
     </div>
 </div>
@@ -419,7 +478,7 @@
     </div>
 
     <div class="producto">
-        <img src="imagenes/boba.jpg">
+        <img src="imagenes/fresas.jpg">
         <h3>BUBBLE</h3>
         Vaso 16 OZ
         <p>$85</p>
@@ -442,7 +501,7 @@
     </div>
 
     <div class="producto">
-        <img src="imagenes/boba.jpg">
+        <img src="imagenes/fresas.jpg">
         <h3>FRAPPE</h3>
         Vaso 14 OZ
         <p>$70</p>
@@ -461,7 +520,7 @@
     </div>
 
     <div class="producto">
-        <img src="imagenes/boba.jpg">
+        <img src="imagenes/fresas.jpg">
         <h3>FRAPPE</h3>
         Vaso 16 OZ
         <p>$80</p>
@@ -507,6 +566,7 @@
 </div>
 
 <script>
+let precioHC = 0;
 let precioDU = 0;
 let precioF = 0;
 let precioC = 70;
@@ -649,6 +709,57 @@ function cambiarDuraznos(c){
 
     document.getElementById("Duraznos").innerText =
         carrito["Duraznos"].cantidad;
+
+    actualizarTotal();
+}
+
+/*CAKES*/
+function precioHotCakes(){
+    let tc = document.getElementById("tamañoHotCakes").value;
+
+    if(tc == "chico") precioHC = 70;
+    else if(tc == "mediano") precioHC = 80;
+    else if(tc == "grande") precioHC = 95;
+    else precioHC = 0;
+
+    document.getElementById("countHotCakes").innerText =
+    "Precio: $" + precioHC;
+}
+
+function cambiarHotCakes(c){
+
+    if(!carrito["HotCakes"])
+        carrito["HotCakes"] = {cantidad:0,items:[]};
+
+    let tc = document.getElementById("tamañoHotCakes").value;
+    let t1c = document.getElementById("toppingHotCakes").value;
+    let t2c = document.getElementById("topping2HotCakes").value;
+    let extrac = document.getElementById("extraHotCakes").value;
+    let jarabeHC = document.getElementById("jarabeHotCakes").value;
+
+    if(!tc) return alert("Selecciona Chico, Mediano o Grande");
+    
+    if(precioHC == 0) return alert("Selecciona una opción válida");
+
+    if(c > 0){
+        carrito["HotCakes"].cantidad++;
+        carrito["HotCakes"].items.push({
+            tamañoC: tc,
+            toppingUnoC: t1c,
+            toppingDosC: t2c,
+            frutaExtraC: extrac,
+            jarabeH: jarabeHC,
+            precio: precioHC
+        });
+    } else if(carrito["HotCakes"].cantidad > 0){
+        carrito["HotCakes"].cantidad--;
+        carrito["HotCakes"].items.pop();
+    }
+
+    animar("HotCakes");
+
+    document.getElementById("HotCakes").innerText =
+        carrito["HotCakes"].cantidad;
 
     actualizarTotal();
 }
@@ -861,6 +972,12 @@ function pedir(tipo){
             if(i.toppingUnoD) msg += "T1: " + i.toppingUnoD + " | ";
             if(i.toppingDosD) msg += "T2: " + i.toppingDosD + " | ";
             if(i.frutaExtraD) msg += "Fruta Extra: " + i.frutaExtraD + "|";
+            if(i.tamañoC) msg += "Tamaño: " + i.tamañoC + " | ";
+            if(i.toppingUnoC) msg += "T1: " + i.toppingUnoC + " | ";
+            if(i.toppingDosC) msg += "T2: " + i.toppingDosC + " | ";
+            if(i.frutaExtraC) msg += "Fruta Extra: " + i.frutaExtraC + " | ";
+             if(i.jarabeH) msg += "Jarabe: " + i.jarabeH + " | ";
+            if(i.relleno) msg += "Relleno: " + i.relleno + " | ";
             if(i.cubierta) msg += "Cubierta: " + i.cubierta + " | ";
             if(i.rellenoD) msg += "Relleno: " + i.rellenoD + " | ";
             if(i.jarabe) msg += "Jarabe: " + i.jarabe + " | ";
@@ -889,8 +1006,8 @@ function pedir(tipo){
     if(tipo === "transferencia"){
         msg += "🏦 PAGO POR TRANSFERENCIA\n\n";
         msg += "Banco: BBVA\n";
-        msg += "Nombre: Judith Chávez";
-        msg += "Cuenta: 4152 3145 5176 5962";
+        msg += "Nombre: Judith Chávez\n";
+        msg += "Cuenta: 4152 3145 5176 5962\n";
         msg += "📍 Por favor envía tu ubicación por WhatsApp para entrega.\n";
         msg += "Por favor envia captura de tu transferencia por WhatsApp.";
     }
