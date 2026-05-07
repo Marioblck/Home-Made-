@@ -185,6 +185,19 @@
             .total{
                 font-size:24px;
             }
+            .logout{
+    position:static;
+    width:100%;
+    margin-bottom:15px;
+}
+
+.control-panel{
+    flex-direction:column;
+}
+
+.control-panel button{
+    width:100%;
+}
 
         }
 
@@ -286,14 +299,7 @@ window.abrirPedidos = async function(){
 
 window.cerrarPedidos = async function(){
 
-     let confirmar = confirm("¿Eliminar pedido?");
-
-    if(!confirmar) return;
-
-    await deleteDoc(doc(db, "pedidos", id));
-
-    cargarPedidos();
-
+   
     await setDoc(doc(db, "configuracion", "estado"), {
 
         abierto:false
