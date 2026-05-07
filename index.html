@@ -142,12 +142,28 @@
             margin: 10px;
             border-radius: 10px;
         }
+
+        #estadoPedidos{
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.abierto{
+    color:green;
+}
+
+.cerrado{
+    color:red;
+}
     </style>
 </head>
 
 <body>
 
 <div class="contenido">
+<div id="estadoPedidos"></div>
 
 <h1>Menú</h1>
 
@@ -500,7 +516,7 @@
         </select>
 
 
-             <p id="countBebidas">Sodas: $0</p>
+             <p id="countSodas">Sodas: $0</p>
 
         <div class="acciones">
             <button onclick="cambiarSodas(-1)">-</button>
@@ -564,17 +580,90 @@
 </button>
 </div>
 
-<script>
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyClXHe3J3Mixzh8GB1AF9qhWy1sJitDxjE",
+    authDomain: "home-made-3738d.firebaseapp.com",
+    projectId: "home-made-3738d",
+    storageBucket: "home-made-3738d.firebasestorage.app",
+    messagingSenderId: "971246149984",
+    appId: "1:971246149984:web:06457c532e9acec6847e05"
+  };
+
+   const app = initializeApp(firebaseConfig);
+   const db = getFirestore(app);
+   window.pedir = pedir;
+   async function verificarEstadoPedidos(){
+
+    const estadoDiv = document.getElementById("estadoPedidos");
+
+    const docRef = doc(db, "configuracion", "estado");
+
+    const docSnap = await getDoc(docRef);
+
+    if(docSnap.exists()){
+
+        const data = docSnap.data();
+
+        if(data.abierto){
+
+            pedidosAbiertos = true;
+
+            estadoDiv.innerHTML = "🟢 Pedidos abiertos";
+            estadoDiv.className = "abierto";
+
+        }else{
+
+            pedidosAbiertos = false;
+
+            estadoDiv.innerHTML = "🔴 No estamos aceptando pedidos, Servicio Sabados y Domingos apartir de las 4pm";
+            estadoDiv.className = "cerrado";
+
+            const botones = document.querySelectorAll("button");
+
+            botones.forEach((btn)=>{
+
+                if(btn.innerText.includes("Agregar")){
+
+                    btn.disabled = true;
+                    btn.style.opacity = "0.5";
+
+                }
+
+            });
+
+        }
+
+    }
+
+}
+
+verificarEstadoPedidos();
+
+   // TODO tu código aquí...
+
 let precioS = 0;
 let precioFR = 0;
 let precioBE = 0;
 let precioHC = 0;
 let precioDU = 0;
 let precioF = 0;
-let precioC = 70;
+let precioCost = 70;
 let precioD = 0;
 let carrito = {};
+let pedidosAbiertos = true;
 let precioB = 0;
+
 
 /* ================= MENÚ ================= */
 function mostrar(cat){
@@ -827,22 +916,122 @@ function cambiarBanderilla(c){
 /*BANDERILLAS DULCES*/
 
 function precioBanderillaDulce(){
-    let r = document.getElementById("rellenoBanderillaDulce").value;
 
-    if(r == "kinderdelice") precioD = 45;
-    else if(r == "chocoroles") precioD = 35;
-    else if(r == "gansito") precioD = 45;
-    else precioD = 0;
+    let r =
+    document.getElementById("rellenoBanderillaDulce").value;
+
+    if(r == "kinderdelice"){
+        precioD = 45;
+    }
+    else if(r == "chocoroles"){
+        precioD = 35;
+    }
+    else if(r == "gansito"){
+        precioD = 45;
+    }
+    else{
+        precioD = 0;
+    }
 
     document.getElementById("precioDulceText").innerText =
-        "Precio: $" + precioD;
+    "Precio: $" + precioD;
 }
 
+function cambiarBanderillaDulce(c){
+
+    if(!carrito["BanderillaDulce"]){
+        carrito["BanderillaDulce"] = {
+            cantidad: 0,
+            items: []
+        };
+    }
+
+    let relleno =
+        document.getElementById("rellenoBanderillaDulce").value;
+
+    let jarabe =
+        document.getElementById("jarabeBanderillaDulce").value;
+
+    if(!relleno){
+        return alert("Selecciona un relleno");
+    }
+
+    if(!jarabe){
+        return alert("Selecciona un jarabe");
+    }
+
+    if(precioD == 0){
+        return alert("Selecciona una opción válida");
+    }
+
+    if(c > 0){
+
+        carrito["BanderillaDulce"].cantidad++;
+
+        carrito["BanderillaDulce"].items.push({
+            rellenoD: relleno,
+            jarabe: jarabe,
+            precio: precioD
+        });
+
+    }else if(carrito["BanderillaDulce"].cantidad > 0){
+
+        carrito["BanderillaDulce"].cantidad--;
+
+        carrito["BanderillaDulce"].items.pop();
+    }
+
+    animar("BanderillaDulce");
+
+    document.getElementById("BanderillaDulce").innerText =
+        carrito["BanderillaDulce"].cantidad;
+
+    actualizarTotal();
+}
 
 /* ================= COSTILLAS ELOTE ================= */
 function precioCostillaElote(){
     // Precio fijo
     document.getElementById("precioCost").innerText = "Precio: $70";
+}
+function cambiarCostillaElote(c){
+
+    if(!carrito["Costillas"]){
+        carrito["Costillas"] = {
+            cantidad: 0,
+            items: []
+        };
+    }
+
+    let aderezo =
+        document.getElementById("aderezoCostillaElote").value;
+
+    if(!aderezo){
+        return alert("Selecciona un aderezo");
+    }
+
+    if(c > 0){
+
+        carrito["Costillas"].cantidad++;
+
+        carrito["Costillas"].items.push({
+            aderezoCostilla: aderezo,
+            precio: precioCost 
+        });
+
+    }else if(carrito["Costillas"].cantidad > 0){
+
+        carrito["Costillas"].cantidad--;
+
+        carrito["Costillas"].items.pop();
+    }
+
+    animar("Costillas");
+
+    document.getElementById("Costillas").innerText =
+        carrito["Costillas"].cantidad;
+
+    actualizarTotal();
 }
 
 /*BEBIDAS*/
@@ -981,7 +1170,15 @@ function cambiarFrappe(c){
 }
 
 /* ================= BOTÓN PEDIDO ================= */
-function pedir(tipo){
+async function pedir(tipo){
+
+    if(!pedidosAbiertos){
+
+    alert("❌ Los pedidos están cerrados");
+
+    return;
+
+}
 
     let nombre = validarNombre();
 
@@ -1006,38 +1203,48 @@ function pedir(tipo){
             if(i.toppingUno) msg += "T1: " + i.toppingUno + " | ";
             if(i.toppingDos) msg += "T2: " + i.toppingDos + " | ";
             if(i.frutaExtra) msg += "Fruta Extra: " + i.frutaExtra + " | ";
+
             /*DURAZNOS*/
             if(i.tamañoD) msg += "Tamaño: " + i.tamañoD + " | ";
             if(i.toppingUnoD) msg += "T1: " + i.toppingUnoD + " | ";
             if(i.toppingDosD) msg += "T2: " + i.toppingDosD + " | ";
             if(i.frutaExtraD) msg += "Fruta Extra: " + i.frutaExtraD + "|";
+
             /*CAKES*/
             if(i.tamañoC) msg += "Tamaño: " + i.tamañoC + " | ";
             if(i.toppingUnoC) msg += "T1: " + i.toppingUnoC + " | ";
             if(i.toppingDosC) msg += "T2: " + i.toppingDosC + " | ";
             if(i.frutaExtraC) msg += "Fruta Extra: " + i.frutaExtraC + " | ";
             if(i.jarabeH) msg += "Jarabe: " + i.jarabeH + " | ";
+
             /*BANDERILLAS*/
             if(i.relleno) msg += "Relleno: " + i.relleno + " | ";
             if(i.cubierta) msg += "Cubierta: " + i.cubierta + " | ";
             if(i.aderezo) msg += "Aderezo: " + i.aderezo + " | ";
             if(i.aderezo2) msg += "Aderezo2: " + i.aderezo2 + " | "; 
-            /*BANDERILLASDULCES*/
+
+            /*BANDERILLAS DULCES*/
             if(i.rellenoD) msg += "Relleno: " + i.rellenoD + " | ";
             if(i.jarabe) msg += "Jarabe: " + i.jarabe + " | ";
+
             /*BUBBLE*/
             if(i.tamañoBE) msg += "Tamaño: " + i.tamañoBE + " | ";
             if(i.saborBE) msg += "Sabor: " + i.saborBE + " | ";
-             /*SODAS*/
+
+            /*SODAS*/
             if(i.tamañoS) msg += "Tamaño: " + i.tamañoS + " | ";
             if(i.saborS) msg += "Sabor: " + i.saborS + " | ";
-             /*FRAPPE*/
+
+            /*FRAPPE*/
             if(i.tamañoFR) msg += "Tamaño: " + i.tamañoFR + " | ";
             if(i.saborFR) msg += "Sabor: " + i.saborFR + " | ";
+
             /*COSTILLAS*/
-            if(i.aderezoCostilla) 
+            if(i.aderezoCostilla)
             msg += "Costillas Elote | Aderezo: " + i.aderezoCostilla + " | ";
+
             msg += "Precio: $" + (i.precio || carrito[p].precio) + "\n";
+
             total += i.precio || carrito[p].precio;
 
         });
@@ -1061,8 +1268,63 @@ function pedir(tipo){
         msg += "Por favor envia captura de tu transferencia por WhatsApp.";
     }
 
-    alert(msg);
+    try{
+
+        await guardarPedido(nombre, carrito, total, tipo);
+
+        alert(msg);
+
+        carrito = {};
+
+        location.reload();
+
+    }catch(error){
+
+        alert("❌ Error al guardar pedido: " + error);
+
+    }
 }
+
+
+
+async function guardarPedido(nombre, carrito, total, tipo){
+
+    await addDoc(collection(db, "pedidos"), {
+        nombre: nombre,
+        carrito: JSON.parse(JSON.stringify(carrito)),
+        total: total,
+        tipoPago: tipo,
+        fecha: new Date().toISOString()
+    });
+
+}
+
+window.mostrar = mostrar;
+
+window.precioFresas = precioFresas;
+window.precioDuraznos = precioDuraznos;
+window.precioHotCakes = precioHotCakes;
+
+window.precioBanderilla = precioBanderilla;
+window.precioBanderillaDulce = precioBanderillaDulce;
+window.precioCostillaElote = precioCostillaElote;
+
+window.precioBebidas = precioBebidas;
+window.precioSodas = precioSodas;
+window.precioFrappe = precioFrappe;
+
+window.cambiarFresas = cambiarFresas;
+window.cambiarDuraznos = cambiarDuraznos;
+window.cambiarHotCakes = cambiarHotCakes;
+
+window.cambiarBanderilla = cambiarBanderilla;
+window.cambiarBanderillaDulce = cambiarBanderillaDulce;
+window.cambiarCostillaElote = cambiarCostillaElote;
+
+window.cambiarBebidas = cambiarBebidas;
+window.cambiarSodas = cambiarSodas;
+window.cambiarFrappe = cambiarFrappe;
+
 </script>
 
 </body>
