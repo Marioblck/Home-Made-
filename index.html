@@ -8,7 +8,7 @@
         body { 
             margin: 0;
             font-family: Arial;
-            background: #fafafa;
+            background: #f7f4f6;
         }
 
         h1 { text-align: center; }
@@ -69,7 +69,7 @@
 
         /* ===== CARD PRODUCTO ===== */
         .producto {
-            background: white;
+            background: rgb(224, 201, 215);
             border-radius: 12px;
             padding: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -117,7 +117,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: white;
+            background: rgb(250, 248, 249);
             padding: 10px;
             box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
             z-index: 1000;
@@ -129,11 +129,11 @@
             margin-top: 5px;
             border: none;
             border-radius: 8px;
-            color: white;
+            color: rgb(250, 248, 249);
         }
 
-        .efectivo { background: black; }
-        .transferencia { background: blue; }
+        .efectivo { background: rgb(224, 54, 182); }
+        .transferencia { background: rgb(197, 23, 67); }
 
         .cuentaBox {
             display: none;
@@ -499,7 +499,7 @@
     </div>
 
     <div class="producto">
-        <img src="imageness/boba.jpeg">
+        <img src="imageness/soda.jpeg">
         <h3>SODAS</h3>
 
         <p><b>Seleccione Tamaño</b></p>
@@ -526,7 +526,7 @@
     </div>
     
      <div class="producto">
-        <img src="imageness/boba.jpeg">
+        <img src="imageness/frappe.jpeg">
         <h3>FRAPPE</h3>
 
         <p><b>Seleccione Tamaño</b></p>
@@ -554,7 +554,7 @@
     </div>
 
     <div class="producto">
-        <img src="imagenes/cafe.jpg">
+        <img src="imageness/cafe.jpeg">
         <h3>CAFE</h3>
         Capuccino
         <p>$30</p>
@@ -570,14 +570,62 @@
 
 <!-- CARRITO -->
 <div class="carrito">
-    <h3 id="total">Total: $0</h3>
-    <button class="pedido efectivo" onclick="pedir('efectivo')">
-    Efectivo
-</button>
 
-<button class="pedido transferencia" onclick="pedir('transferencia')">
-    Transferencia
-</button>
+    <h3 id="total">Total: $0</h3>
+
+    <p style="margin:5px 0; font-weight:bold;">
+    Método de pago
+</p>
+
+    <button class="pedido efectivo"
+        onclick="seleccionarPago('efectivo')">
+        Efectivo
+    </button>
+
+    <button class="pedido transferencia"
+        onclick="seleccionarPago('transferencia')">
+        Transferencia
+    </button>
+
+
+</div>
+<div id="resumenPedido"
+     style="
+     display:none;
+     background:white;
+     position:fixed;
+     top:50%;
+     left:50%;
+     transform:translate(-50%,-50%);
+     width:90%;
+     max-width:400px;
+     padding:20px;
+     border-radius:15px;
+     box-shadow:0 0 20px rgba(0,0,0,0.3);
+     z-index:9999;
+     ">
+
+    <h3>Resumen del Pedido</h3>
+
+    <pre id="textoResumen"
+         style="
+         white-space:pre-wrap;
+         font-family:Arial;
+         max-height:300px;
+         overflow:auto;
+         "></pre>
+
+    <button class="pedido efectivo"
+        onclick="enviarPedidoFinal()">
+        Confirmar
+    </button>
+
+    <button class="pedido transferencia"
+        style="background:red;"
+        onclick="cancelarResumen()">
+        Cancelar
+    </button>
+
 </div>
 
 <script type="module">
@@ -626,7 +674,7 @@
 
             pedidosAbiertos = false;
 
-            estadoDiv.innerHTML = "🔴 No estamos aceptando pedidos, Servicio Sabados y Domingos apartir de las 4pm";
+            estadoDiv.innerHTML = "🔴 SIN SERVICIO!, Servicio Sabados y Domingos apartir de las 4pm";
             estadoDiv.className = "cerrado";
 
             const botones = document.querySelectorAll("button");
@@ -650,7 +698,7 @@
 
 verificarEstadoPedidos();
 
-   // TODO tu código aquí...
+   // código aquí
 
 let precioS = 0;
 let precioFR = 0;
@@ -663,6 +711,9 @@ let precioD = 0;
 let carrito = {};
 let pedidosAbiertos = true;
 let precioB = 0;
+let metodoPago = "";
+let mensajeFinal = "";
+let totalFinal = 0;
 
 
 /* ================= MENÚ ================= */
@@ -734,6 +785,7 @@ function cambiarFresas(c){
     if(precioF == 0) return alert("Selecciona una opción válida");
 
     if(c > 0){
+
         carrito["Fresas"].cantidad++;
         carrito["Fresas"].items.push({
             tamañoF: tf,
@@ -742,6 +794,16 @@ function cambiarFresas(c){
             frutaExtra: extraf,
             precio: precioF
         });
+        reiniciarFormulario(
+[
+"tamañoFresas",
+"toppingFresas",
+"topping2Fresas",
+"extraFresas"
+],
+"countFresas"
+);
+precioF = 0;
     } else if(carrito["Fresas"].cantidad > 0){
         carrito["Fresas"].cantidad--;
         carrito["Fresas"].items.pop();
@@ -783,6 +845,7 @@ function cambiarDuraznos(c){
     if(precioDU == 0) return alert("Selecciona una opción válida");
 
     if(c > 0){
+        
         carrito["Duraznos"].cantidad++;
         carrito["Duraznos"].items.push({
             tamañoD: td,
@@ -791,6 +854,17 @@ function cambiarDuraznos(c){
             frutaExtraD: extrad,
             precio: precioDU
         });
+        reiniciarFormulario(
+[
+"tamañoDuraznos",
+"toppingDuraznos",
+"topping2Duraznos",
+"extraDuraznos"
+],
+"countDuraznos"
+);
+
+precioDU = 0;
     } else if(carrito["Duraznos"].cantidad > 0){
         carrito["Duraznos"].cantidad--;
         carrito["Duraznos"].items.pop();
@@ -833,6 +907,7 @@ function cambiarHotCakes(c){
     if(precioHC == 0) return alert("Selecciona una opción válida");
 
     if(c > 0){
+       
         carrito["HotCakes"].cantidad++;
         carrito["HotCakes"].items.push({
             tamañoC: tc,
@@ -842,6 +917,18 @@ function cambiarHotCakes(c){
             jarabeH: jarabeHC,
             precio: precioHC
         });
+         reiniciarFormulario(
+[
+"tamañoHotCakes",
+"jarabeHotCakes",
+"toppingHotCakes",
+"topping2HotCakes",
+"extraHotCakes"
+],
+"countHotCakes"
+);
+
+precioHC = 0;
     } else if(carrito["HotCakes"].cantidad > 0){
         carrito["HotCakes"].cantidad--;
         carrito["HotCakes"].items.pop();
@@ -898,8 +985,20 @@ function cambiarBanderilla(c){
     if(precioB==0) return alert("Combinación inválida");
 
     if(c>0){
+       
         carrito["Banderilla"].cantidad++;
         carrito["Banderilla"].items.push({relleno:r,cubierta:cu,aderezo:a1, aderezo2:a2,precio:precioB});
+         reiniciarFormulario(
+[
+"rellenoBanderilla",
+"cubiertaBanderilla",
+"aderezoBanderilla",
+"aderezo2Banderilla"
+],
+"precioBand"
+);
+
+precioB = 0;
     } else if(carrito["Banderilla"].cantidad>0){
         carrito["Banderilla"].cantidad--;
         carrito["Banderilla"].items.pop();
@@ -973,6 +1072,15 @@ function cambiarBanderillaDulce(c){
             jarabe: jarabe,
             precio: precioD
         });
+         reiniciarFormulario(
+[
+"rellenoBanderillaDulce",
+"jarabeBanderillaDulce"
+],
+"precioDulceText"
+);
+
+precioD = 0;
 
     }else if(carrito["BanderillaDulce"].cantidad > 0){
 
@@ -1018,6 +1126,12 @@ function cambiarCostillaElote(c){
             aderezoCostilla: aderezo,
             precio: precioCost 
         });
+        reiniciarFormulario(
+[
+"aderezoCostillaElote"
+],
+"precioCost"
+);
 
     }else if(carrito["Costillas"].cantidad > 0){
 
@@ -1066,6 +1180,14 @@ function cambiarBebidas(c){
             saborBE: s,
             precio: precioBE
         });
+         reiniciarFormulario(
+[
+"tamañoBebidas",
+"saborBebidas"
+],
+"countBebidas"
+);
+precioBE = 0;
     } else if(carrito["Bebidas"].cantidad > 0){
         carrito["Bebidas"].cantidad--;
         carrito["Bebidas"].items.pop();
@@ -1111,6 +1233,15 @@ function cambiarSodas(c){
             saborS: si,
             precio: precioS
         });
+         reiniciarFormulario(
+[
+"tamañoSodas",
+"saborSodas"
+],
+"countSodas"
+);
+
+precioS = 0;
     } else if(carrito["Sodas"].cantidad > 0){
         carrito["Sodas"].cantidad--;
         carrito["Sodas"].items.pop();
@@ -1156,6 +1287,15 @@ function cambiarFrappe(c){
             saborFR: sfr,
             precio: precioFR
         });
+         reiniciarFormulario(
+[
+"tamañoFrappe",
+"saborFrappe"
+],
+"countFrappe"
+);
+
+precioFR = 0;
     } else if(carrito["Frappe"].cantidad > 0){
         carrito["Frappe"].cantidad--;
         carrito["Frappe"].items.pop();
@@ -1169,6 +1309,11 @@ function cambiarFrappe(c){
     actualizarTotal();
 }
 
+function seleccionarPago(tipo){
+
+    pedir(tipo);
+
+}
 /* ================= BOTÓN PEDIDO ================= */
 async function pedir(tipo){
 
@@ -1183,7 +1328,7 @@ async function pedir(tipo){
     let nombre = validarNombre();
 
     if(!nombre){
-        alert("⚠️ Escribe tu nombre antes de hacer el pedido");
+        alert("⚠️ Escribe tu nombre en la parte de arriba antes de hacer el pedido");
         return;
     }
 
@@ -1255,7 +1400,8 @@ async function pedir(tipo){
     /* ================= EFECTIVO ================= */
     if(tipo === "efectivo"){
         msg += "💵 PAGO EN EFECTIVO\n";
-        msg += "📍 Por favor envía tu ubicación por WhatsApp para entrega.";
+        msg += "📍 Por favor envía tu ubicación y tu nombre por WhatsApp/Messenger para entrega.\n";
+        msg += "📍 El pedido se tomara en cuenta una vez mande su Ubicacion y nombre por WhatsApp/Messenger";
     }
 
     /* ================= TRANSFERENCIA ================= */
@@ -1264,15 +1410,33 @@ async function pedir(tipo){
         msg += "Banco: BBVA\n";
         msg += "Nombre: Judith Chávez\n";
         msg += "Cuenta: 4152 3145 5176 5962\n\n";
-        msg += "📍 Por favor envía tu ubicación por WhatsApp para entrega.\n";
-        msg += "Por favor envia captura de tu transferencia por WhatsApp.";
+        msg += "📍 Por favor envía tu ubicación por WhatsApp/Messenger para entrega.\n";
+        msg += "📍 Por favor envia captura de tu transferencia por WhatsApp/Messenger.";
+        msg += "📍 El pedido se tomara en cuenta una vez mande su Ubicacion y nombre por WhatsApp/Messenger";
     }
+
+   mensajeFinal = msg;
+totalFinal = total;
+
+document.getElementById("textoResumen").innerText = msg;
+
+document.getElementById("resumenPedido").style.display = "block";
+}
+
+async function enviarPedidoFinal(){
 
     try{
 
-        await guardarPedido(nombre, carrito, total, tipo);
+        let nombre = validarNombre();
 
-        alert(msg);
+        await guardarPedido(
+            nombre,
+            carrito,
+            totalFinal,
+            metodoPago
+        );
+
+        alert("✅ Pedido enviado correctamente");
 
         carrito = {};
 
@@ -1283,6 +1447,41 @@ async function pedir(tipo){
         alert("❌ Error al guardar pedido: " + error);
 
     }
+}
+
+function cancelarResumen(){
+
+    document.getElementById("resumenPedido").style.display = "none";
+
+    carrito = {};
+
+    document.getElementById("total").innerText = "Total: $0";
+
+    const contadores = [
+        "Fresas",
+        "Duraznos",
+        "HotCakes",
+        "Banderilla",
+        "BanderillaDulce",
+        "Costillas",
+        "Bebidas",
+        "Sodas",
+        "Frappe",
+        "Cafe"
+    ];
+
+    contadores.forEach(id => {
+
+        let elemento = document.getElementById(id);
+
+        if(elemento){
+            elemento.innerText = "0";
+        }
+
+    });
+
+    metodoPago = "";
+
 }
 
 
@@ -1297,6 +1496,27 @@ async function guardarPedido(nombre, carrito, total, tipo){
         fecha: new Date().toISOString()
     });
 
+}
+
+function reiniciarFormulario(ids, precioId){
+
+    ids.forEach(id => {
+
+        let elemento = document.getElementById(id);
+
+        if(elemento){
+
+            if(elemento.tagName === "SELECT"){
+                elemento.selectedIndex = 0;
+            }
+
+        }
+
+    });
+
+    if(precioId){
+        document.getElementById(precioId).innerText = "Precio: $0";
+    }
 }
 
 window.mostrar = mostrar;
@@ -1324,6 +1544,10 @@ window.cambiarCostillaElote = cambiarCostillaElote;
 window.cambiarBebidas = cambiarBebidas;
 window.cambiarSodas = cambiarSodas;
 window.cambiarFrappe = cambiarFrappe;
+
+window.seleccionarPago = seleccionarPago;
+window.enviarPedidoFinal = enviarPedidoFinal;
+window.cancelarResumen = cancelarResumen;
 
 </script>
 
